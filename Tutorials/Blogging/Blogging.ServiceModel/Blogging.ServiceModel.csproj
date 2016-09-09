@@ -46,6 +46,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiEntryPoint.cs" />
+    <Compile Include="Configurations\ApiEntryPointConfiguration.cs" />
+    <Compile Include="ConfigurationFactory.cs" />
+    <Compile Include="Configurations\PersonConfiguration.cs" />
+    <Compile Include="Configurations\CommentConfiguration.cs" />
+    <Compile Include="Configurations\ArticleConfiguration.cs" />
+    <Compile Include="Configurations\BlogConfiguration.cs" />
     <Compile Include="Article.cs" />
     <Compile Include="Blog.cs" />
     <Compile Include="Comment.cs" />

@@ -94,6 +94,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="BloggingDocumentContext.cs" />
+    <Compile Include="Controllers\ApiEntryPointController.cs" />
+    <Compile Include="Controllers\BlogsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -108,11 +111,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Blogging.ServiceModel\Blogging.ServiceModel.csproj">
       <Project>{08c50894-5e8a-4d40-bfa2-057e8378da23}</Project>
