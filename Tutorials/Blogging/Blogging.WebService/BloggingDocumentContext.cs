@@ -11,7 +11,6 @@ namespace Blogging.WebService
 {
     public class BloggingDocumentContext : DocumentContext
     {
-        // PUBLIC CONSTRUCTORS //////////////////////////////////////////////
         #region Constructors
         public BloggingDocumentContext(IUrlBuilderConfiguration urlBuilderConfiguration)
         {
@@ -29,10 +28,11 @@ namespace Blogging.WebService
         }
         #endregion
 
-        // PROTECTED METHODS ////////////////////////////////////////////////
         #region DocumentContext Overrides
         protected override void OnConfiguring(IDocumentContextOptionsBuilder optionsBuilder)
         {
+            Contract.Requires(optionsBuilder != null);
+
             var conventions = ConfigurationFactory.CreateConventions();
             var serviceModel = ConfigurationFactory.CreateServiceModel();
             var urlBuilderConfiguration = this.UrlBuilderConfiguration;
@@ -43,7 +43,6 @@ namespace Blogging.WebService
         }
         #endregion
 
-        // PRIVATE PROPERTIES ///////////////////////////////////////////////
         #region Properties
         private IUrlBuilderConfiguration UrlBuilderConfiguration { get; set; }
         #endregion

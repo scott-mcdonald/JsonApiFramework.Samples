@@ -96,6 +96,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="BloggingDocumentContext.cs" />
     <Compile Include="Controllers\ApiEntryPointController.cs" />
+    <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\PeopleController.cs" />
+    <Compile Include="Controllers\ArticlesController.cs" />
     <Compile Include="Controllers\BlogsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

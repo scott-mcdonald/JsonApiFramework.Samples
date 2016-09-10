@@ -12,13 +12,20 @@ namespace Blogging.ServiceModel
         {
             var conventionSetBuilder = new ConventionSetBuilder();
 
+            // Use JSON API standard member naming convention for JSON API resource attributes.
+            // For example, FirstName in POCO becomes "first-name" as a JSON API attribute.
             conventionSetBuilder.ApiAttributeNamingConventions()
                                 .AddStandardMemberNamingConvention();
 
+            // Use JSON API standard member naming and plurization conventions of the POCO type
+            // name as the JSON API type name.
+            // For example, Article POCO type becomes "articles" as the JSON API type.
             conventionSetBuilder.ApiTypeNamingConventions()
                                 .AddPluralNamingConvention()
                                 .AddStandardMemberNamingConvention();
 
+            // Discover all public properties as JSON API resource attributes.
+            // For example, FirstName property in POCO becomes an attribute of a JSON API resource.
             conventionSetBuilder.ResourceTypeConventions()
                                 .AddPropertyDiscoveryConvention();
 
