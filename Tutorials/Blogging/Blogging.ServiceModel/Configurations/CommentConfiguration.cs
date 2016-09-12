@@ -7,6 +7,7 @@ namespace Blogging.ServiceModel.Configurations
         public CommentConfiguration()
         {
             // Relationships
+            this.ToOneRelationship<Article>("article");
             this.ToOneRelationship<Person>("author");
         }
     }

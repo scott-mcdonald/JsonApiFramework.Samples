@@ -1,35 +1,162 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Web;
 using System.Web.Http;
+
+using JsonApiFramework.Http;
+using JsonApiFramework.JsonApi;
+using JsonApiFramework.Server;
 
 namespace Blogging.WebService.Controllers
 {
     public class PeopleController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        [Route("people")]
+        public Document GetCollection()
         {
-            return new string[] { "value1", "value2" };
+            /////////////////////////////////////////////////////
+            // Get all People from repository
+            /////////////////////////////////////////////////////
+            var people = BloggingRepository.GetPeople();
+
+            /////////////////////////////////////////////////////
+            // Build JSON API document
+            /////////////////////////////////////////////////////
+            var currentRequestUrl = HttpContext.Current.Request.Url;
+            var urlBuilderConfiguration = new UrlBuilderConfiguration(currentRequestUrl.Scheme, currentRequestUrl.Host, currentRequestUrl.Port);
+            using (var documentContext = new BloggingDocumentContext(urlBuilderConfiguration))
+            {
+                var document = documentContext
+                    .NewDocument(currentRequestUrl)
+                        .SetJsonApiVersion(JsonApiVersion.Version10)
+                        .Links()
+                            .AddUpLink()
+                            .AddSelfLink()
+                        .LinksEnd()
+                        .ResourceCollection(people)
+                            .Relationships()
+                                .AddRelationship("articles", Keywords.Related)
+                                .AddRelationship("comments", Keywords.Related)
+                            .RelationshipsEnd()
+                            .Links()
+                                .AddSelfLink()
+                            .LinksEnd()
+                        .ResourceCollectionEnd()
+                    .WriteDocument();
+
+                return document;
+            }
         }
 
-        // GET api/<controller>/5
-        public string Get(int id)
+        [Route("people/{id}")]
+        public Document Get(string id)
         {
-            return "value";
+            /////////////////////////////////////////////////////
+            // Get Person by identifier from repository
+            /////////////////////////////////////////////////////
+            var person = BloggingRepository.GetPerson(Convert.ToInt64(id));
+
+            /////////////////////////////////////////////////////
+            // Build JSON API document
+            /////////////////////////////////////////////////////
+            var currentRequestUrl = HttpContext.Current.Request.Url;
+            var urlBuilderConfiguration = new UrlBuilderConfiguration(currentRequestUrl.Scheme, currentRequestUrl.Host, currentRequestUrl.Port);
+            using (var documentContext = new BloggingDocumentContext(urlBuilderConfiguration))
+            {
+                var document = documentContext
+                    .NewDocument(currentRequestUrl)
+                        .SetJsonApiVersion(JsonApiVersion.Version10)
+                        .Links()
+                            .AddUpLink()
+                            .AddSelfLink()
+                        .LinksEnd()
+                        .Resource(person)
+                            .Relationships()
+                                .AddRelationship("articles", Keywords.Related)
+                                .AddRelationship("comments", Keywords.Related)
+                            .RelationshipsEnd()
+                            .Links()
+                                .AddSelfLink()
+                            .LinksEnd()
+                        .ResourceEnd()
+                    .WriteDocument();
+
+                return document;
+            }
         }
 
-        // POST api/<controller>
-        public void Post([FromBody]string value)
+        [Route("people/{id}/articles")]
+        public Document GetPersonToArticles(string id)
         {
+            /////////////////////////////////////////////////////
+            // Get Person to related Articles by Author identifier from repository
+            /////////////////////////////////////////////////////
+            var personToArticles = BloggingRepository.GetPersonToArticles(Convert.ToInt64(id));
+
+            /////////////////////////////////////////////////////
+            // Build JSON API document
+            /////////////////////////////////////////////////////
+            var currentRequestUrl = HttpContext.Current.Request.Url;
+            var urlBuilderConfiguration = new UrlBuilderConfiguration(currentRequestUrl.Scheme, currentRequestUrl.Host, currentRequestUrl.Port);
+            using (var documentContext = new BloggingDocumentContext(urlBuilderConfiguration))
+            {
+                var document = documentContext
+                    .NewDocument(currentRequestUrl)
+                        .SetJsonApiVersion(JsonApiVersion.Version10)
+                        .Links()
+                            .AddUpLink()
+                            .AddSelfLink()
+                        .LinksEnd()
+                        .ResourceCollection(personToArticles)
+                            .Relationships()
+                                .AddRelationship("blog", Keywords.Related)
+                                .AddRelationship("author", Keywords.Related)
+                                .AddRelationship("comments", Keywords.Related)
+                            .RelationshipsEnd()
+                           .Links()
+                                .AddSelfLink()
+                            .LinksEnd()
+                        .ResourceCollectionEnd()
+                    .WriteDocument();
+
+                return document;
+            }
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
+        [Route("people/{id}/comments")]
+        public Document GetPersonToComments(string id)
         {
-        }
+            /////////////////////////////////////////////////////
+            // Get Person to related Comments by Author identifier from repository
+            /////////////////////////////////////////////////////
+            var personToComments = BloggingRepository.GetPersonToComments(Convert.ToInt64(id));
 
-        // DELETE api/<controller>/5
-        public void Delete(int id)
-        {
+            /////////////////////////////////////////////////////
+            // Build JSON API document
+            /////////////////////////////////////////////////////
+            var currentRequestUrl = HttpContext.Current.Request.Url;
+            var urlBuilderConfiguration = new UrlBuilderConfiguration(currentRequestUrl.Scheme, currentRequestUrl.Host, currentRequestUrl.Port);
+            using (var documentContext = new BloggingDocumentContext(urlBuilderConfiguration))
+            {
+                var document = documentContext
+                    .NewDocument(currentRequestUrl)
+                        .SetJsonApiVersion(JsonApiVersion.Version10)
+                        .Links()
+                            .AddUpLink()
+                            .AddSelfLink()
+                        .LinksEnd()
+                        .ResourceCollection(personToComments)
+                            .Relationships()
+                                .AddRelationship("article", Keywords.Related)
+                                .AddRelationship("author", Keywords.Related)
+                            .RelationshipsEnd()
+                            .Links()
+                                .AddSelfLink()
+                            .LinksEnd()
+                        .ResourceCollectionEnd()
+                    .WriteDocument();
+
+                return document;
+            }
         }
     }
 }
