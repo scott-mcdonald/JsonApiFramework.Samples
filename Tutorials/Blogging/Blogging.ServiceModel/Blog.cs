@@ -1,5 +1,4 @@
-﻿
-using JsonApiFramework;
+﻿using JsonApiFramework;
 
 namespace Blogging.ServiceModel
 {

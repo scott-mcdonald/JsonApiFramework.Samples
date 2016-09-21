@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System;
+using System.Diagnostics.Contracts;
 
 using Blogging.ServiceModel;
 
@@ -12,18 +13,20 @@ namespace Blogging.WebService
     public class BloggingDocumentContext : DocumentContext
     {
         #region Constructors
-        public BloggingDocumentContext(IUrlBuilderConfiguration urlBuilderConfiguration)
+        public BloggingDocumentContext(Uri currentRequestUrl)
         {
-            Contract.Requires(urlBuilderConfiguration != null);
+            Contract.Requires(currentRequestUrl != null);
 
+            var urlBuilderConfiguration = CreateUrlBuilderConfiguration(currentRequestUrl);
             this.UrlBuilderConfiguration = urlBuilderConfiguration;
         }
 
-        public BloggingDocumentContext(IUrlBuilderConfiguration urlBuilderConfiguration, Document document)
+        public BloggingDocumentContext(Uri currentRequestUrl, Document document)
             : base(document)
         {
-            Contract.Requires(urlBuilderConfiguration != null);
+            Contract.Requires(currentRequestUrl != null);
 
+            var urlBuilderConfiguration = CreateUrlBuilderConfiguration(currentRequestUrl);
             this.UrlBuilderConfiguration = urlBuilderConfiguration;
         }
         #endregion
@@ -37,7 +40,7 @@ namespace Blogging.WebService
             var serviceModel = ConfigurationFactory.CreateServiceModel();
             var urlBuilderConfiguration = this.UrlBuilderConfiguration;
 
-            optionsBuilder.UseConventionSet(conventions);
+            optionsBuilder.UseConventions(conventions);
             optionsBuilder.UseServiceModel(serviceModel);
             optionsBuilder.UseUrlBuilderConfiguration(urlBuilderConfiguration);
         }
@@ -45,6 +48,19 @@ namespace Blogging.WebService
 
         #region Properties
         private IUrlBuilderConfiguration UrlBuilderConfiguration { get; set; }
+        #endregion
+
+        #region Methods
+        private static UrlBuilderConfiguration CreateUrlBuilderConfiguration(Uri currentRequestUrl)
+        {
+            Contract.Requires(currentRequestUrl != null);
+
+            var scheme = currentRequestUrl.Scheme;
+            var host = currentRequestUrl.Host;
+            var port = currentRequestUrl.Port;
+            var urlBuilderConfiguration = new UrlBuilderConfiguration(scheme, host, port);
+            return urlBuilderConfiguration;
+        }
         #endregion
     }
 }

@@ -2,7 +2,6 @@
 using System.Web;
 using System.Web.Http;
 
-using JsonApiFramework.Http;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.Server;
 
@@ -10,6 +9,7 @@ namespace Blogging.WebService.Controllers
 {
     public class BlogsController : ApiController
     {
+        #region WebApi Methods
         [Route("blogs")]
         public Document GetCollection()
         {
@@ -22,8 +22,7 @@ namespace Blogging.WebService.Controllers
             // Build JSON API document
             /////////////////////////////////////////////////////
             var currentRequestUrl = HttpContext.Current.Request.Url;
-            var urlBuilderConfiguration = new UrlBuilderConfiguration(currentRequestUrl.Scheme, currentRequestUrl.Host, currentRequestUrl.Port);
-            using (var documentContext = new BloggingDocumentContext(urlBuilderConfiguration))
+            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
             {
                 var document = documentContext
                     .NewDocument(currentRequestUrl)
@@ -58,8 +57,7 @@ namespace Blogging.WebService.Controllers
             // Build JSON API document
             /////////////////////////////////////////////////////
             var currentRequestUrl = HttpContext.Current.Request.Url;
-            var urlBuilderConfiguration = new UrlBuilderConfiguration(currentRequestUrl.Scheme, currentRequestUrl.Host, currentRequestUrl.Port);
-            using (var documentContext = new BloggingDocumentContext(urlBuilderConfiguration))
+            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
             {
                 var document = documentContext
                     .NewDocument(currentRequestUrl)
@@ -94,8 +92,7 @@ namespace Blogging.WebService.Controllers
             // Build JSON API document
             /////////////////////////////////////////////////////
             var currentRequestUrl = HttpContext.Current.Request.Url;
-            var urlBuilderConfiguration = new UrlBuilderConfiguration(currentRequestUrl.Scheme, currentRequestUrl.Host, currentRequestUrl.Port);
-            using (var documentContext = new BloggingDocumentContext(urlBuilderConfiguration))
+            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
             {
                 var document = documentContext
                     .NewDocument(currentRequestUrl)
@@ -122,26 +119,20 @@ namespace Blogging.WebService.Controllers
         [Route("blogs")]
         public Document Post([FromBody]Document inDocument)
         {
-            var outDocument = new Document
-                {
-                    JsonApiVersion = JsonApiVersion.Version10
-                };
-            return outDocument;
+            throw new NotImplementedException();
         }
 
         [Route("blogs/{id}")]
         public Document Patch(string id, [FromBody]Document inDocument)
         {
-            var outDocument = new Document
-                {
-                    JsonApiVersion = JsonApiVersion.Version10
-                };
-            return outDocument;
+            throw new NotImplementedException();
         }
 
         [Route("blogs/{id}")]
         public void Delete(string id)
         {
+            throw new NotImplementedException();
         }
+        #endregion
     }
 }

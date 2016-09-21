@@ -1,35 +1,35 @@
 ﻿using Blogging.ServiceModel.Configurations;
 
+using JsonApiFramework.Conventions;
 using JsonApiFramework.ServiceModel;
 using JsonApiFramework.ServiceModel.Configuration;
-using JsonApiFramework.ServiceModel.Conventions;
 
 namespace Blogging.ServiceModel
 {
     public static class ConfigurationFactory
     {
-        public static ConventionSet CreateConventions()
+        public static IConventions CreateConventions()
         {
-            var conventionSetBuilder = new ConventionSetBuilder();
+            var conventionsBuilder = new ConventionsBuilder();
 
             // Use JSON API standard member naming convention for JSON API resource attributes.
             // For example, FirstName in POCO becomes "first-name" as a JSON API attribute.
-            conventionSetBuilder.ApiAttributeNamingConventions()
-                                .AddStandardMemberNamingConvention();
+            conventionsBuilder.ApiAttributeNamingConventions()
+                              .AddStandardMemberNamingConvention();
 
             // Use JSON API standard member naming and plurization conventions of the POCO type
             // name as the JSON API type name.
             // For example, Article POCO type becomes "articles" as the JSON API type.
-            conventionSetBuilder.ApiTypeNamingConventions()
-                                .AddPluralNamingConvention()
-                                .AddStandardMemberNamingConvention();
+            conventionsBuilder.ApiTypeNamingConventions()
+                              .AddPluralNamingConvention()
+                              .AddStandardMemberNamingConvention();
 
             // Discover all public properties as JSON API resource attributes.
             // For example, FirstName property in POCO becomes an attribute of a JSON API resource.
-            conventionSetBuilder.ResourceTypeConventions()
-                                .AddPropertyDiscoveryConvention();
+            conventionsBuilder.ResourceTypeConventions()
+                              .AddPropertyDiscoveryConvention();
 
-            var conventions = conventionSetBuilder.Create();
+            var conventions = conventionsBuilder.Create();
             return conventions;
         }
 

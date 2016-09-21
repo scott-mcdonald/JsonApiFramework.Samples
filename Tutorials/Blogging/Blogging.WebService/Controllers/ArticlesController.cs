@@ -2,7 +2,6 @@
 using System.Web;
 using System.Web.Http;
 
-using JsonApiFramework.Http;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.Server;
 
@@ -10,6 +9,7 @@ namespace Blogging.WebService.Controllers
 {
     public class ArticlesController : ApiController
     {
+        #region WebApi Methods
         [Route("articles")]
         public Document GetCollection()
         {
@@ -22,8 +22,7 @@ namespace Blogging.WebService.Controllers
             // Build JSON API document
             /////////////////////////////////////////////////////
             var currentRequestUrl = HttpContext.Current.Request.Url;
-            var urlBuilderConfiguration = new UrlBuilderConfiguration(currentRequestUrl.Scheme, currentRequestUrl.Host, currentRequestUrl.Port);
-            using (var documentContext = new BloggingDocumentContext(urlBuilderConfiguration))
+            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
             {
                 var document = documentContext
                     .NewDocument(currentRequestUrl)
@@ -60,8 +59,7 @@ namespace Blogging.WebService.Controllers
             // Build JSON API document
             /////////////////////////////////////////////////////
             var currentRequestUrl = HttpContext.Current.Request.Url;
-            var urlBuilderConfiguration = new UrlBuilderConfiguration(currentRequestUrl.Scheme, currentRequestUrl.Host, currentRequestUrl.Port);
-            using (var documentContext = new BloggingDocumentContext(urlBuilderConfiguration))
+            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
             {
                 var document = documentContext
                     .NewDocument(currentRequestUrl)
@@ -98,8 +96,7 @@ namespace Blogging.WebService.Controllers
             // Build JSON API document
             /////////////////////////////////////////////////////
             var currentRequestUrl = HttpContext.Current.Request.Url;
-            var urlBuilderConfiguration = new UrlBuilderConfiguration(currentRequestUrl.Scheme, currentRequestUrl.Host, currentRequestUrl.Port);
-            using (var documentContext = new BloggingDocumentContext(urlBuilderConfiguration))
+            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
             {
                 var document = documentContext
                     .NewDocument(currentRequestUrl)
@@ -134,8 +131,7 @@ namespace Blogging.WebService.Controllers
             // Build JSON API document
             /////////////////////////////////////////////////////
             var currentRequestUrl = HttpContext.Current.Request.Url;
-            var urlBuilderConfiguration = new UrlBuilderConfiguration(currentRequestUrl.Scheme, currentRequestUrl.Host, currentRequestUrl.Port);
-            using (var documentContext = new BloggingDocumentContext(urlBuilderConfiguration))
+            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
             {
                 var document = documentContext
                     .NewDocument(currentRequestUrl)
@@ -171,8 +167,7 @@ namespace Blogging.WebService.Controllers
             // Build JSON API document
             /////////////////////////////////////////////////////
             var currentRequestUrl = HttpContext.Current.Request.Url;
-            var urlBuilderConfiguration = new UrlBuilderConfiguration(currentRequestUrl.Scheme, currentRequestUrl.Host, currentRequestUrl.Port);
-            using (var documentContext = new BloggingDocumentContext(urlBuilderConfiguration))
+            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
             {
                 var document = documentContext
                     .NewDocument(currentRequestUrl)
@@ -195,5 +190,24 @@ namespace Blogging.WebService.Controllers
                 return document;
             }
         }
+
+        [Route("articles")]
+        public Document Post([FromBody]Document inDocument)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Route("articles/{id}")]
+        public Document Patch(string id, [FromBody]Document inDocument)
+        {
+            throw new NotImplementedException();
+        }
+
+        [Route("articles/{id}")]
+        public void Delete(string id)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }

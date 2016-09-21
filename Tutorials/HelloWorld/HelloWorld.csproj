@@ -36,16 +36,16 @@
       <HintPath>..\..\packages\Humanizer.Core.2.1.0\lib\netstandard1.0\Humanizer.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="JsonApiFramework.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JsonApiFramework.Core.1.0.5-beta\lib\portable-net45+win8+wp8\JsonApiFramework.Core.dll</HintPath>
+    <Reference Include="JsonApiFramework.Core, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JsonApiFramework.Core.1.1.2-beta\lib\portable-net45+win8+wp8\JsonApiFramework.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="JsonApiFramework.Infrastructure, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JsonApiFramework.Infrastructure.1.0.5-beta\lib\portable-net45+win8+wp8\JsonApiFramework.Infrastructure.dll</HintPath>
+    <Reference Include="JsonApiFramework.Infrastructure, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JsonApiFramework.Infrastructure.1.1.2-beta\lib\portable-net45+win8+wp8\JsonApiFramework.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="JsonApiFramework.Server, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\JsonApiFramework.Server.1.0.5-beta\lib\portable-net45+win8+wp8\JsonApiFramework.Server.dll</HintPath>
+    <Reference Include="JsonApiFramework.Server, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JsonApiFramework.Server.1.1.2-beta\lib\portable-net45+win8+wp8\JsonApiFramework.Server.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
