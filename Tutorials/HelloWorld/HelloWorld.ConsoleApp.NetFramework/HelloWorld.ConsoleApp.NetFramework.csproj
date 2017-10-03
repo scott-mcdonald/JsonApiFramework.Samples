@@ -1,19 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{08C50894-5E8A-4D40-BFA2-057E8378DA23}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Blogging.ServiceModel</RootNamespace>
-    <AssemblyName>Blogging.ServiceModel</AssemblyName>
+    <ProjectGuid>{E2937872-7C7C-4496-AF5B-734B263F954D}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>HelloWorld</RootNamespace>
+    <AssemblyName>HelloWorld.ConsoleApp.NetFramework</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -36,6 +37,12 @@
     </Reference>
     <Reference Include="JsonApiFramework.Core, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\JsonApiFramework.Core.1.5.0\lib\netstandard1.0\JsonApiFramework.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="JsonApiFramework.Infrastructure, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\JsonApiFramework.Infrastructure.1.5.0\lib\netstandard1.0\JsonApiFramework.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="JsonApiFramework.Server, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\JsonApiFramework.Server.1.5.0\lib\netstandard1.0\JsonApiFramework.Server.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
@@ -102,29 +109,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApiEntryPoint.cs" />
-    <Compile Include="Configurations\ApiEntryPointConfiguration.cs" />
-    <Compile Include="ConfigurationFactory.cs" />
-    <Compile Include="Configurations\PersonConfiguration.cs" />
-    <Compile Include="Configurations\CommentConfiguration.cs" />
-    <Compile Include="Configurations\ArticleConfiguration.cs" />
-    <Compile Include="Configurations\BlogConfiguration.cs" />
-    <Compile Include="Article.cs" />
-    <Compile Include="Blog.cs" />
-    <Compile Include="Comment.cs" />
-    <Compile Include="Person.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorldsDocumentContext.cs" />
+    <Compile Include="WorldsServiceModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

@@ -36,7 +36,7 @@ namespace HelloWorld
 
                         // Expose to-many relationship to "moons"
                         .Relationships()
-                            .AddRelationship("moons", Keywords.Related) // (shortcut syle)
+                            .AddRelationship("moons", new[] { Keywords.Related }) // (shortcut syle)
                         .RelationshipsEnd()
 
                         .Links()
@@ -56,7 +56,6 @@ namespace HelloWorld
 
             // .. Write to both the console and deubg output tab in Visual Studio.
             Console.WriteLine(json);
-            Debug.Print(json);
         }
 
         static IEnumerable<World> GetSampleWorlds()

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Web;
 using System.Web.Http;
 
+using JsonApiFramework;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.Server;
 
@@ -16,7 +18,10 @@ namespace Blogging.WebService.Controllers
             /////////////////////////////////////////////////////
             // Get all Articles from repository
             /////////////////////////////////////////////////////
-            var articles = BloggingRepository.GetArticles();
+            var articles = BloggingRepository.GetArticles().SafeToList();
+            var articlesToRelatedAuthorCollection = articles
+                .Select(x => ToOneIncludedResource.Create(x, "author", BloggingRepository.GetPerson(x.AuthorId)))
+                .ToList();
 
             /////////////////////////////////////////////////////
             // Build JSON API document
@@ -33,14 +38,21 @@ namespace Blogging.WebService.Controllers
                         .LinksEnd()
                         .ResourceCollection(articles)
                             .Relationships()
-                                .AddRelationship("blog", Keywords.Related)
-                                .AddRelationship("author", Keywords.Related)
-                                .AddRelationship("comments", Keywords.Related)
+                                .AddRelationship("blog", new[] { Keywords.Related })
+                                .AddRelationship("author", new[] { Keywords.Related })
+                                .AddRelationship("comments", new[] { Keywords.Related })
                             .RelationshipsEnd()
                             .Links()
                                 .AddSelfLink()
                             .LinksEnd()
                         .ResourceCollectionEnd()
+                        .Included()
+                            .Include(articlesToRelatedAuthorCollection)
+                                .Links()
+                                    .AddSelfLink()
+                                .LinksEnd()
+                            .IncludeEnd()
+                        .IncludedEnd()
                     .WriteDocument();
 
                 return document;
@@ -70,9 +82,9 @@ namespace Blogging.WebService.Controllers
                         .LinksEnd()
                         .Resource(article)
                             .Relationships()
-                                .AddRelationship("blog", Keywords.Related)
-                                .AddRelationship("author", Keywords.Related)
-                                .AddRelationship("comments", Keywords.Related)
+                                .AddRelationship("blog", new[] { Keywords.Related })
+                                .AddRelationship("author", new[] { Keywords.Related })
+                                .AddRelationship("comments", new[] { Keywords.Related })
                             .RelationshipsEnd()
                             .Links()
                                 .AddSelfLink()
@@ -107,7 +119,7 @@ namespace Blogging.WebService.Controllers
                         .LinksEnd()
                         .Resource(articleToBlog)
                             .Relationships()
-                                .AddRelationship("articles", Keywords.Related)
+                                .AddRelationship("articles", new[] { Keywords.Related })
                             .RelationshipsEnd()
                             .Links()
                                 .AddSelfLink()
@@ -142,8 +154,8 @@ namespace Blogging.WebService.Controllers
                         .LinksEnd()
                         .Resource(articleToAuthor)
                             .Relationships()
-                                .AddRelationship("articles", Keywords.Related)
-                                .AddRelationship("comments", Keywords.Related)
+                                .AddRelationship("articles", new[] { Keywords.Related })
+                                .AddRelationship("comments", new[] { Keywords.Related })
                             .RelationshipsEnd()
                             .Links()
                                 .AddSelfLink()
@@ -178,8 +190,8 @@ namespace Blogging.WebService.Controllers
                         .LinksEnd()
                         .ResourceCollection(articleToComments)
                             .Relationships()
-                                .AddRelationship("article", Keywords.Related)
-                                .AddRelationship("author", Keywords.Related)
+                                .AddRelationship("article", new[] { Keywords.Related })
+                                .AddRelationship("author", new[] { Keywords.Related })
                             .RelationshipsEnd()
                             .Links()
                                 .AddSelfLink()
