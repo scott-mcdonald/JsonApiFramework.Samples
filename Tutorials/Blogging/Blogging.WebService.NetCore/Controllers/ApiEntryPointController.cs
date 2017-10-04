@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Web;
-using System.Web.Http;
 
 using Blogging.ServiceModel;
 
@@ -8,12 +6,15 @@ using JsonApiFramework.Http;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.Server;
 
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
+using Microsoft.AspNetCore.Mvc;
+
 namespace Blogging.WebService.Controllers
 {
-    public class ApiEntryPointController : ApiController
+    public class ApiEntryPointController : Controller
     {
         #region WebApi Methods
-        [Route("")]
+        [HttpGet("")]
         public Document GetAsync()
         {
             var apiEntryPoint = new ApiEntryPoint
@@ -27,11 +28,11 @@ namespace Blogging.WebService.Controllers
             /////////////////////////////////////////////////////
             // Build JSON API document
             /////////////////////////////////////////////////////
-            var currentRequestUrl = HttpContext.Current.Request.Url;
+            var currentRequestUri = this.Request.GetUri();
 
-            var scheme = currentRequestUrl.Scheme;
-            var host = currentRequestUrl.Host;
-            var port = currentRequestUrl.Port;
+            var scheme = currentRequestUri.Scheme;
+            var host = currentRequestUri.Host;
+            var port = currentRequestUri.Port;
             var urlBuilderConfiguration = new UrlBuilderConfiguration(scheme, host, port);
 
             var blogsResourceCollectionLink    = CreateBlogsResourceCollectionLink(urlBuilderConfiguration);
@@ -39,10 +40,10 @@ namespace Blogging.WebService.Controllers
             var commentsResourceCollectionLink = CreateCommentsResourceCollectionUrl(urlBuilderConfiguration);
             var peopleResourceCollectionLink   = CreatePeopleResourceCollectionUrl(urlBuilderConfiguration);
 
-            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
+            using (var documentContext = new BloggingDocumentContext(currentRequestUri))
                 {
                     var document = documentContext
-                        .NewDocument(currentRequestUrl)
+                        .NewDocument(currentRequestUri)
                             .SetJsonApiVersion(JsonApiVersion.Version10)
                             .Links()
                                 .AddSelfLink()

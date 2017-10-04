@@ -159,8 +159,7 @@ namespace Blogging.WebService
             for (var i = 1; i <= numberOfArticles; i++)
             {
                 var blogId = RandomData.GetLong(1, numberOfBlogs);
-                //var authorId = RandomData.GetLong(1, numberOfPersons);
-                var authorId = 1;
+                var authorId = RandomData.GetLong(1, numberOfPersons);
                 var article = new Article
                     {
                         BlogId = blogId,

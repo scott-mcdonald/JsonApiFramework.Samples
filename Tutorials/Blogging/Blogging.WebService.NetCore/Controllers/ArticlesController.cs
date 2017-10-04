@@ -1,18 +1,19 @@
 ﻿using System;
 using System.Linq;
-using System.Web;
-using System.Web.Http;
 
 using JsonApiFramework;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.Server;
 
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
+using Microsoft.AspNetCore.Mvc;
+
 namespace Blogging.WebService.Controllers
 {
-    public class ArticlesController : ApiController
+    public class ArticlesController : Controller
     {
         #region WebApi Methods
-        [Route("articles")]
+        [HttpGet("articles")]
         public Document GetCollection()
         {
             /////////////////////////////////////////////////////
@@ -26,11 +27,11 @@ namespace Blogging.WebService.Controllers
             /////////////////////////////////////////////////////
             // Build JSON API document
             /////////////////////////////////////////////////////
-            var currentRequestUrl = HttpContext.Current.Request.Url;
-            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
+            var currentRequestUri = this.Request.GetUri();
+            using (var documentContext = new BloggingDocumentContext(currentRequestUri))
             {
                 var document = documentContext
-                    .NewDocument(currentRequestUrl)
+                    .NewDocument(currentRequestUri)
                         .SetJsonApiVersion(JsonApiVersion.Version10)
                         .Links()
                             .AddUpLink()
@@ -59,7 +60,7 @@ namespace Blogging.WebService.Controllers
             }
         }
 
-        [Route("articles/{id}")]
+        [HttpGet("articles/{id}")]
         public Document Get(string id)
         {
             /////////////////////////////////////////////////////
@@ -70,11 +71,11 @@ namespace Blogging.WebService.Controllers
             /////////////////////////////////////////////////////
             // Build JSON API document
             /////////////////////////////////////////////////////
-            var currentRequestUrl = HttpContext.Current.Request.Url;
-            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
+            var currentRequestUri = this.Request.GetUri();
+            using (var documentContext = new BloggingDocumentContext(currentRequestUri))
             {
                 var document = documentContext
-                    .NewDocument(currentRequestUrl)
+                    .NewDocument(currentRequestUri)
                         .SetJsonApiVersion(JsonApiVersion.Version10)
                         .Links()
                             .AddUpLink()
@@ -96,7 +97,7 @@ namespace Blogging.WebService.Controllers
             }
         }
 
-        [Route("articles/{id}/blog")]
+        [HttpGet("articles/{id}/blog")]
         public Document GetArticleToBlog(string id)
         {
             /////////////////////////////////////////////////////
@@ -107,11 +108,11 @@ namespace Blogging.WebService.Controllers
             /////////////////////////////////////////////////////
             // Build JSON API document
             /////////////////////////////////////////////////////
-            var currentRequestUrl = HttpContext.Current.Request.Url;
-            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
+            var currentRequestUri = this.Request.GetUri();
+            using (var documentContext = new BloggingDocumentContext(currentRequestUri))
             {
                 var document = documentContext
-                    .NewDocument(currentRequestUrl)
+                    .NewDocument(currentRequestUri)
                         .SetJsonApiVersion(JsonApiVersion.Version10)
                         .Links()
                             .AddUpLink()
@@ -131,7 +132,7 @@ namespace Blogging.WebService.Controllers
             }
         }
 
-        [Route("articles/{id}/author")]
+        [HttpGet("articles/{id}/author")]
         public Document GetArticleToAuthor(string id)
         {
             /////////////////////////////////////////////////////
@@ -142,11 +143,11 @@ namespace Blogging.WebService.Controllers
             /////////////////////////////////////////////////////
             // Build JSON API document
             /////////////////////////////////////////////////////
-            var currentRequestUrl = HttpContext.Current.Request.Url;
-            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
+            var currentRequestUri = this.Request.GetUri();
+            using (var documentContext = new BloggingDocumentContext(currentRequestUri))
             {
                 var document = documentContext
-                    .NewDocument(currentRequestUrl)
+                    .NewDocument(currentRequestUri)
                         .SetJsonApiVersion(JsonApiVersion.Version10)
                         .Links()
                             .AddUpLink()
@@ -167,7 +168,7 @@ namespace Blogging.WebService.Controllers
             }
         }
 
-        [Route("articles/{id}/comments")]
+        [HttpGet("articles/{id}/comments")]
         public Document GetArticleToComments(string id)
         {
             /////////////////////////////////////////////////////
@@ -178,11 +179,11 @@ namespace Blogging.WebService.Controllers
             /////////////////////////////////////////////////////
             // Build JSON API document
             /////////////////////////////////////////////////////
-            var currentRequestUrl = HttpContext.Current.Request.Url;
-            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
+            var currentRequestUri = this.Request.GetUri();
+            using (var documentContext = new BloggingDocumentContext(currentRequestUri))
             {
                 var document = documentContext
-                    .NewDocument(currentRequestUrl)
+                    .NewDocument(currentRequestUri)
                         .SetJsonApiVersion(JsonApiVersion.Version10)
                         .Links()
                             .AddUpLink()
@@ -203,19 +204,19 @@ namespace Blogging.WebService.Controllers
             }
         }
 
-        [Route("articles")]
+        [HttpPost("articles")]
         public Document Post([FromBody]Document inDocument)
         {
             throw new NotImplementedException();
         }
 
-        [Route("articles/{id}")]
+        [HttpPatch("articles/{id}")]
         public Document Patch(string id, [FromBody]Document inDocument)
         {
             throw new NotImplementedException();
         }
 
-        [Route("articles/{id}")]
+        [HttpDelete("articles/{id}")]
         public void Delete(string id)
         {
             throw new NotImplementedException();

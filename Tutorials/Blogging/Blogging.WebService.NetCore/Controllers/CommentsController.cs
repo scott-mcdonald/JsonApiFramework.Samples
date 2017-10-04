@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Web;
-using System.Web.Http;
 
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.Server;
 
+using Microsoft.ApplicationInsights.AspNetCore.Extensions;
+using Microsoft.AspNetCore.Mvc;
+
 namespace Blogging.WebService.Controllers
 {
-    public class CommentsController : ApiController
+    public class CommentsController : Controller
     {
         #region WebApi Methods
-        [Route("comments")]
+        [HttpGet("comments")]
         public Document GetCollection()
         {
             /////////////////////////////////////////////////////
@@ -21,11 +22,11 @@ namespace Blogging.WebService.Controllers
             /////////////////////////////////////////////////////
             // Build JSON API document
             /////////////////////////////////////////////////////
-            var currentRequestUrl = HttpContext.Current.Request.Url;
-            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
+            var currentRequestUri = this.Request.GetUri();
+            using (var documentContext = new BloggingDocumentContext(currentRequestUri))
             {
                 var document = documentContext
-                    .NewDocument(currentRequestUrl)
+                    .NewDocument(currentRequestUri)
                         .SetJsonApiVersion(JsonApiVersion.Version10)
                         .Links()
                             .AddUpLink()
@@ -46,7 +47,7 @@ namespace Blogging.WebService.Controllers
             }
         }
 
-        [Route("comments/{id}")]
+        [HttpGet("comments/{id}")]
         public Document Get(string id)
         {
             /////////////////////////////////////////////////////
@@ -57,11 +58,11 @@ namespace Blogging.WebService.Controllers
             /////////////////////////////////////////////////////
             // Build JSON API document
             /////////////////////////////////////////////////////
-            var currentRequestUrl = HttpContext.Current.Request.Url;
-            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
+            var currentRequestUri = this.Request.GetUri();
+            using (var documentContext = new BloggingDocumentContext(currentRequestUri))
             {
                 var document = documentContext
-                    .NewDocument(currentRequestUrl)
+                    .NewDocument(currentRequestUri)
                         .SetJsonApiVersion(JsonApiVersion.Version10)
                         .Links()
                             .AddUpLink()
@@ -82,7 +83,7 @@ namespace Blogging.WebService.Controllers
             }
         }
 
-        [Route("comments/{id}/article")]
+        [HttpGet("comments/{id}/article")]
         public Document GetCommentToArticle(string id)
         {
             /////////////////////////////////////////////////////
@@ -93,11 +94,11 @@ namespace Blogging.WebService.Controllers
             /////////////////////////////////////////////////////
             // Build JSON API document
             /////////////////////////////////////////////////////
-            var currentRequestUrl = HttpContext.Current.Request.Url;
-            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
+            var currentRequestUri = this.Request.GetUri();
+            using (var documentContext = new BloggingDocumentContext(currentRequestUri))
             {
                 var document = documentContext
-                    .NewDocument(currentRequestUrl)
+                    .NewDocument(currentRequestUri)
                         .SetJsonApiVersion(JsonApiVersion.Version10)
                         .Links()
                             .AddUpLink()
@@ -119,7 +120,7 @@ namespace Blogging.WebService.Controllers
             }
         }
 
-        [Route("comments/{id}/author")]
+        [HttpGet("comments/{id}/author")]
         public Document GetCommentToAuthor(string id)
         {
             /////////////////////////////////////////////////////
@@ -130,11 +131,11 @@ namespace Blogging.WebService.Controllers
             /////////////////////////////////////////////////////
             // Build JSON API document
             /////////////////////////////////////////////////////
-            var currentRequestUrl = HttpContext.Current.Request.Url;
-            using (var documentContext = new BloggingDocumentContext(currentRequestUrl))
+            var currentRequestUri = this.Request.GetUri();
+            using (var documentContext = new BloggingDocumentContext(currentRequestUri))
             {
                 var document = documentContext
-                    .NewDocument(currentRequestUrl)
+                    .NewDocument(currentRequestUri)
                         .SetJsonApiVersion(JsonApiVersion.Version10)
                         .Links()
                             .AddUpLink()
@@ -155,19 +156,19 @@ namespace Blogging.WebService.Controllers
             }
         }
 
-        [Route("comments")]
+        [HttpPost("comments")]
         public Document Post([FromBody]Document inDocument)
         {
             throw new NotImplementedException();
         }
 
-        [Route("comments/{id}")]
+        [HttpPatch("comments/{id}")]
         public Document Patch(string id, [FromBody]Document inDocument)
         {
             throw new NotImplementedException();
         }
 
-        [Route("comments/{id}")]
+        [HttpDelete("comments/{id}")]
         public void Delete(string id)
         {
             throw new NotImplementedException();

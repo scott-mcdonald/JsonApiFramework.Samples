@@ -13,20 +13,20 @@ namespace Blogging.WebService
     public class BloggingDocumentContext : DocumentContext
     {
         #region Constructors
-        public BloggingDocumentContext(Uri currentRequestUrl)
+        public BloggingDocumentContext(Uri currentRequestUri)
         {
-            Contract.Requires(currentRequestUrl != null);
+            Contract.Requires(currentRequestUri != null);
 
-            var urlBuilderConfiguration = CreateUrlBuilderConfiguration(currentRequestUrl);
+            var urlBuilderConfiguration = CreateUrlBuilderConfiguration(currentRequestUri);
             this.UrlBuilderConfiguration = urlBuilderConfiguration;
         }
 
-        public BloggingDocumentContext(Uri currentRequestUrl, Document document)
+        public BloggingDocumentContext(Uri currentRequestUri, Document document)
             : base(document)
         {
-            Contract.Requires(currentRequestUrl != null);
+            Contract.Requires(currentRequestUri != null);
 
-            var urlBuilderConfiguration = CreateUrlBuilderConfiguration(currentRequestUrl);
+            var urlBuilderConfiguration = CreateUrlBuilderConfiguration(currentRequestUri);
             this.UrlBuilderConfiguration = urlBuilderConfiguration;
         }
         #endregion
@@ -51,13 +51,13 @@ namespace Blogging.WebService
         #endregion
 
         #region Methods
-        private static UrlBuilderConfiguration CreateUrlBuilderConfiguration(Uri currentRequestUrl)
+        private static UrlBuilderConfiguration CreateUrlBuilderConfiguration(Uri currentRequestUri)
         {
-            Contract.Requires(currentRequestUrl != null);
+            Contract.Requires(currentRequestUri != null);
 
-            var scheme = currentRequestUrl.Scheme;
-            var host = currentRequestUrl.Host;
-            var port = currentRequestUrl.Port;
+            var scheme = currentRequestUri.Scheme;
+            var host = currentRequestUri.Host;
+            var port = currentRequestUri.Port;
             var urlBuilderConfiguration = new UrlBuilderConfiguration(scheme, host, port);
             return urlBuilderConfiguration;
         }

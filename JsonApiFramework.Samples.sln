@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tutorials", "Tutorials", "{6CD4E69F-AB92-44D5-8B6E-FECC1D697A6D}"
 EndProject
@@ -14,13 +14,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blogging.ServiceModel", "Tutorials\Blogging\Blogging.ServiceModel\Blogging.ServiceModel.csproj", "{08C50894-5E8A-4D40-BFA2-057E8378DA23}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blogging.WebService", "Tutorials\Blogging\Blogging.WebService\Blogging.WebService.csproj", "{4CC41354-24E1-4F73-B145-62BC34F3E8D8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.ConsoleApp.NetFramework", "Tutorials\HelloWorld\HelloWorld.ConsoleApp.NetFramework\HelloWorld.ConsoleApp.NetFramework.csproj", "{E2937872-7C7C-4496-AF5B-734B263F954D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWorld.ConsoleApp.NetCore", "Tutorials\HelloWorld\HelloWorld.ConsoleApp.NetCore\HelloWorld.ConsoleApp.NetCore.csproj", "{7D13D7BF-4879-4458-9790-3B29065F57FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.ConsoleApp.NetCore", "Tutorials\HelloWorld\HelloWorld.ConsoleApp.NetCore\HelloWorld.ConsoleApp.NetCore.csproj", "{7D13D7BF-4879-4458-9790-3B29065F57FF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blogging.ServiceModel.NetCore", "Tutorials\Blogging\Blogging.ServiceModel.NetCore\Blogging.ServiceModel.NetCore.csproj", "{E797BC19-A314-41D1-9964-60CBFA7FBF3F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blogging.WebService.NetCore", "Tutorials\Blogging\Blogging.WebService.NetCore\Blogging.WebService.NetCore.csproj", "{AF5E49D9-6B94-4FC8-B745-4ABCEA685BB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,14 +28,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{08C50894-5E8A-4D40-BFA2-057E8378DA23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08C50894-5E8A-4D40-BFA2-057E8378DA23}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08C50894-5E8A-4D40-BFA2-057E8378DA23}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08C50894-5E8A-4D40-BFA2-057E8378DA23}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4CC41354-24E1-4F73-B145-62BC34F3E8D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4CC41354-24E1-4F73-B145-62BC34F3E8D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4CC41354-24E1-4F73-B145-62BC34F3E8D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4CC41354-24E1-4F73-B145-62BC34F3E8D8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E2937872-7C7C-4496-AF5B-734B263F954D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E2937872-7C7C-4496-AF5B-734B263F954D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2937872-7C7C-4496-AF5B-734B263F954D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -44,6 +36,14 @@ Global
 		{7D13D7BF-4879-4458-9790-3B29065F57FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D13D7BF-4879-4458-9790-3B29065F57FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D13D7BF-4879-4458-9790-3B29065F57FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E797BC19-A314-41D1-9964-60CBFA7FBF3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E797BC19-A314-41D1-9964-60CBFA7FBF3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E797BC19-A314-41D1-9964-60CBFA7FBF3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E797BC19-A314-41D1-9964-60CBFA7FBF3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF5E49D9-6B94-4FC8-B745-4ABCEA685BB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF5E49D9-6B94-4FC8-B745-4ABCEA685BB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF5E49D9-6B94-4FC8-B745-4ABCEA685BB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF5E49D9-6B94-4FC8-B745-4ABCEA685BB1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -51,10 +51,10 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{8E96099C-A41B-41F4-90B4-BE683EECFD16} = {6CD4E69F-AB92-44D5-8B6E-FECC1D697A6D}
 		{1A735499-839E-45CF-9CEB-B2EC3B7C7EC8} = {6CD4E69F-AB92-44D5-8B6E-FECC1D697A6D}
-		{08C50894-5E8A-4D40-BFA2-057E8378DA23} = {1A735499-839E-45CF-9CEB-B2EC3B7C7EC8}
-		{4CC41354-24E1-4F73-B145-62BC34F3E8D8} = {1A735499-839E-45CF-9CEB-B2EC3B7C7EC8}
 		{E2937872-7C7C-4496-AF5B-734B263F954D} = {8E96099C-A41B-41F4-90B4-BE683EECFD16}
 		{7D13D7BF-4879-4458-9790-3B29065F57FF} = {8E96099C-A41B-41F4-90B4-BE683EECFD16}
+		{E797BC19-A314-41D1-9964-60CBFA7FBF3F} = {1A735499-839E-45CF-9CEB-B2EC3B7C7EC8}
+		{AF5E49D9-6B94-4FC8-B745-4ABCEA685BB1} = {1A735499-839E-45CF-9CEB-B2EC3B7C7EC8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3DB8BC2-7F33-456A-A051-4F1A4E987E54}
