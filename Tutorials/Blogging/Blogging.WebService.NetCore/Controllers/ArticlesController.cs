@@ -20,8 +20,28 @@ namespace Blogging.WebService.Controllers
             // Get all Articles from repository
             /////////////////////////////////////////////////////
             var articles = BloggingRepository.GetArticles().SafeToList();
-            var articlesToRelatedAuthorCollection = articles
-                .Select(x => ToOneIncludedResource.Create(x, "author", BloggingRepository.GetPerson(x.AuthorId)))
+
+            var articleToBlogIncludedResourceCollection = articles
+                .Select(x => ToOneIncludedResource.Create(x, "blog", BloggingRepository.GetArticleToBlog(x.ArticleId)))
+                .ToList();
+
+            var articleToAuthorIncludedResourceCollection = articles
+                .Select(x => ToOneIncludedResource.Create(x, "author", BloggingRepository.GetArticleToAuthor(x.ArticleId)))
+                .ToList();
+
+            var articleToCommentsIncludedResourcesCollection = articles
+                .Select(x => ToManyIncludedResources.Create(x, "comments", BloggingRepository.GetArticleToComments(x.ArticleId)))
+                .ToList();
+
+            // Get all distinct comments used in all the articles.
+            var comments = articles
+                .SelectMany(x => BloggingRepository.GetArticleToComments(x.ArticleId))
+                .GroupBy(x => x.CommentId)
+                .Select(x => x.First())
+                .ToList();
+
+            var commentToAuthorIncludedResourceCollection = comments
+                .Select(x => ToOneIncludedResource.Create(x, "author", BloggingRepository.GetCommentToAuthor(x.CommentId)))
                 .ToList();
 
             /////////////////////////////////////////////////////
@@ -48,7 +68,32 @@ namespace Blogging.WebService.Controllers
                             .LinksEnd()
                         .ResourceCollectionEnd()
                         .Included()
-                            .Include(articlesToRelatedAuthorCollection)
+                            // article => blog (to-one)
+                            .Include(articleToBlogIncludedResourceCollection)
+                                .Links()
+                                    .AddSelfLink()
+                                .LinksEnd()
+                            .IncludeEnd()
+
+                            // article => author (to-one)
+                            .Include(articleToAuthorIncludedResourceCollection)
+                                .Links()
+                                    .AddSelfLink()
+                                .LinksEnd()
+                            .IncludeEnd()
+
+                            // article => comments (to-many)
+                            .Include(articleToCommentsIncludedResourcesCollection)
+                                .Relationships()
+                                    .AddRelationship("author", new[] { Keywords.Related })
+                                .RelationshipsEnd()
+                                .Links()
+                                    .AddLink(Keywords.Self)
+                                .LinksEnd()
+                            .IncludeEnd()
+
+                            // comment => author (to-one)
+                            .Include(commentToAuthorIncludedResourceCollection)
                                 .Links()
                                     .AddSelfLink()
                                 .LinksEnd()
@@ -67,6 +112,17 @@ namespace Blogging.WebService.Controllers
             // Get Article by identifier from repository
             /////////////////////////////////////////////////////
             var article = BloggingRepository.GetArticle(Convert.ToInt64(id));
+
+            var articleToBlogIncludedResource = ToOneIncludedResource.Create(article, "blog", BloggingRepository.GetArticleToBlog(article.ArticleId));
+            var articleToAuthorIncludedResource = ToOneIncludedResource.Create(article, "author", BloggingRepository.GetArticleToAuthor(article.ArticleId));
+
+            var comments = BloggingRepository.GetArticleToComments(article.ArticleId);
+
+            var articleToCommentsIncludedResources = ToManyIncludedResources.Create(article, "comments", BloggingRepository.GetArticleToComments(article.ArticleId));
+
+            var commentToAuthorIncludedResourceCollection = comments
+                .Select(x => ToOneIncludedResource.Create(x, "author", BloggingRepository.GetCommentToAuthor(x.CommentId)))
+                .ToList();
 
             /////////////////////////////////////////////////////
             // Build JSON API document
@@ -91,6 +147,38 @@ namespace Blogging.WebService.Controllers
                                 .AddSelfLink()
                             .LinksEnd()
                         .ResourceEnd()
+                        .Included()
+                            // article => blog (to-one)
+                            .Include(articleToBlogIncludedResource)
+                                .Links()
+                                    .AddSelfLink()
+                                .LinksEnd()
+                            .IncludeEnd()
+
+                            // article => author (to-one)
+                            .Include(articleToAuthorIncludedResource)
+                                .Links()
+                                    .AddSelfLink()
+                                .LinksEnd()
+                            .IncludeEnd()
+
+                            // article => comments (to-many)
+                            .Include(articleToCommentsIncludedResources)
+                                .Relationships()
+                                    .AddRelationship("author", new[] { Keywords.Related })
+                                    .RelationshipsEnd()
+                                .Links()
+                                    .AddLink(Keywords.Self)
+                                .LinksEnd()
+                            .IncludeEnd()
+
+                            // comment => author (to-one)
+                            .Include(commentToAuthorIncludedResourceCollection)
+                                .Links()
+                                    .AddSelfLink()
+                                .LinksEnd()
+                            .IncludeEnd()
+                        .IncludedEnd()
                     .WriteDocument();
 
                 return document;
