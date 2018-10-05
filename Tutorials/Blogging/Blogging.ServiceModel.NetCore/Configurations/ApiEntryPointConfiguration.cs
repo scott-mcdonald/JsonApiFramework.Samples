@@ -1,4 +1,6 @@
-﻿using JsonApiFramework.ServiceModel.Configuration;
+﻿using System;
+
+using JsonApiFramework.ServiceModel.Configuration;
 
 namespace Blogging.ServiceModel.Configurations
 {
@@ -6,9 +8,13 @@ namespace Blogging.ServiceModel.Configurations
     {
         public ApiEntryPointConfiguration()
         {
+            // Hypermedia
+            this.Hypermedia()
+                .SetApiCollectionPathSegment(String.Empty);
+
             // ResourceIdentity
             // Explicitly set the JSON API type as "api-entry-point".
-            this.ResourceIdentity(x => x.Id)
+            this.ResourceIdentity()
                 .SetApiType("api-entry-point");
         }
     }

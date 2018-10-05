@@ -43,6 +43,8 @@ namespace Blogging.ServiceModel
             serviceModelBuilder.Configurations.Add(new CommentConfiguration());
             serviceModelBuilder.Configurations.Add(new PersonConfiguration());
 
+            serviceModelBuilder.HomeResource<ApiEntryPoint>();
+
             var conventions = CreateConventions();
             var serviceModel = serviceModelBuilder.Create(conventions);
             return serviceModel;

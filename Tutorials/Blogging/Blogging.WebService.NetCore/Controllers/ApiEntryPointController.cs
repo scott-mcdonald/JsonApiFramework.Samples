@@ -19,7 +19,6 @@ namespace Blogging.WebService.Controllers
         {
             var apiEntryPoint = new ApiEntryPoint
                 {
-                    Id = String.Empty,
                     Message = @"Entry point into the Blogging Hypermedia API powered by JsonApiFramework [Server]." + " " +
                               "Implements the JSON API 1.0 specification.",
                     Version = "1.0"
