@@ -1,4 +1,6 @@
-﻿using JsonApiFramework;
+﻿using System;
+
+using JsonApiFramework;
 using JsonApiFramework.Http;
 using JsonApiFramework.Server;
 using JsonApiFramework.ServiceModel.Configuration;
@@ -18,6 +20,19 @@ namespace HelloWorld
 
         protected override void OnServiceModelCreating(IServiceModelBuilder serviceModelBuilder)
         {
+            // Home /////////////////////////////////////////////////////////
+            var homeDocumentConfiguration = serviceModelBuilder.Resource<HomeDocument>();
+
+            // .. Hypermedia
+            homeDocumentConfiguration.Hypermedia()
+                                     .SetApiCollectionPathSegment(String.Empty);
+
+            // .. ResourceIdentity
+            homeDocumentConfiguration.ResourceIdentity()
+                                     .SetApiType("home");
+
+            serviceModelBuilder.HomeResource<HomeDocument>();
+
             // World ////////////////////////////////////////////////////////
             var worldConfiguration = serviceModelBuilder.Resource<World>();
 

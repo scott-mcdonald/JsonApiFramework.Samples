@@ -11,6 +11,12 @@ namespace HelloWorld
         Unknown
     }
 
+    public class HomeDocument : IResource
+    {
+        public string Message { get; set; }
+        public string Version { get; set; }
+    }
+
     public class World : IResource
     {
         public Guid Id { get; set; }
