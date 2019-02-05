@@ -2,7 +2,7 @@
 
 namespace Blogging.ServiceModel
 {
-    public class Person : IResource
+    public class Person
     {
         public long PersonId { get; set; }
         public string FirstName { get; set; }

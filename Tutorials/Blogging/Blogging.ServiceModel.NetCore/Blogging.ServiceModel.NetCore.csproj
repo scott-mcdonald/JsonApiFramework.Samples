@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JsonApiFramework.Core" Version="1.9.0" />
+    <PackageReference Include="JsonApiFramework.Core" Version="2.0.0" />
   </ItemGroup>
 
 </Project>

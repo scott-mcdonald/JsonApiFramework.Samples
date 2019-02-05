@@ -2,7 +2,7 @@
 
 namespace Blogging.ServiceModel
 {
-    public class Article : IResource
+    public class Article
     {
         public long BlogId { get; set; }
         public long AuthorId { get; set; }

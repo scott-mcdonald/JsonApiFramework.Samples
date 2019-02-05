@@ -11,13 +11,13 @@ namespace HelloWorld
         Unknown
     }
 
-    public class HomeDocument : IResource
+    public class HomeDocument
     {
         public string Message { get; set; }
         public string Version { get; set; }
     }
 
-    public class World : IResource
+    public class World
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
@@ -26,13 +26,13 @@ namespace HelloWorld
         public bool? HasWater { get; set; }
     }
 
-    public class SolarSystem : IResource
+    public class SolarSystem
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
     }
 
-    public class Moon : IResource
+    public class Moon
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
