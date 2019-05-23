@@ -37,14 +37,14 @@
     <Reference Include="Humanizer, Version=2.5.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Humanizer.Core.2.5.1\lib\netstandard2.0\Humanizer.dll</HintPath>
     </Reference>
-    <Reference Include="JsonApiFramework.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\JsonApiFramework.Core.2.0.0\lib\netstandard1.0\JsonApiFramework.Core.dll</HintPath>
+    <Reference Include="JsonApiFramework.Core, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\JsonApiFramework.Core.2.1.0\lib\netstandard1.0\JsonApiFramework.Core.dll</HintPath>
     </Reference>
-    <Reference Include="JsonApiFramework.Infrastructure, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\JsonApiFramework.Infrastructure.2.0.0\lib\netstandard1.0\JsonApiFramework.Infrastructure.dll</HintPath>
+    <Reference Include="JsonApiFramework.Infrastructure, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\JsonApiFramework.Infrastructure.2.1.0\lib\netstandard1.0\JsonApiFramework.Infrastructure.dll</HintPath>
     </Reference>
-    <Reference Include="JsonApiFramework.Server, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\JsonApiFramework.Server.2.0.0\lib\netstandard1.0\JsonApiFramework.Server.dll</HintPath>
+    <Reference Include="JsonApiFramework.Server, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\JsonApiFramework.Server.2.1.0\lib\netstandard1.0\JsonApiFramework.Server.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Win32.Primitives, Version=4.0.2.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\packages\Microsoft.Win32.Primitives.4.3.0\lib\net46\Microsoft.Win32.Primitives.dll</HintPath>
