@@ -9,6 +9,10 @@ namespace Blogging.ServiceModel.Configurations
             // Relationships
             this.ToManyRelationship<Article>("articles");
             this.ToManyRelationship<Comment>("comments");
+
+            // Ignore
+            this.Attribute(x => x.Articles).Ignore();
+            this.Attribute(x => x.Comments).Ignore();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using JsonApiFramework;
+﻿using System.Collections.Generic;
 
 namespace Blogging.ServiceModel
 {
@@ -6,5 +6,7 @@ namespace Blogging.ServiceModel
     {
         public long BlogId { get; set; }
         public string Name { get; set; }
+
+        public List<Article> Articles { get; set; }
     }
 }

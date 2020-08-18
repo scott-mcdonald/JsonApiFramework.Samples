@@ -1,5 +1,6 @@
-﻿using Blogging.ServiceModel;
-using Blogging.WebService.Framework;
+﻿using System;
+
+using Blogging.ServiceModel;
 
 using JsonApiFramework.Http;
 using JsonApiFramework.JsonApi;
@@ -9,20 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Blogging.WebService.Controllers
 {
-    [ApiController]
-    [Route("")]
-    public class ApiEntryPointController : ApiController
+    public class ApiEntryPointController : Controller
     {
-        #region Constructors
-        public ApiEntryPointController(IApiServiceContext apiServiceContext)
-            : base(apiServiceContext)
-        {
-        }
-        #endregion
-
         #region WebApi Methods
         [HttpGet("")]
-        public IActionResult GetAsync()
+        public Document GetAsync()
         {
             var apiEntryPoint = new ApiEntryPoint
                 {
@@ -34,7 +26,7 @@ namespace Blogging.WebService.Controllers
             /////////////////////////////////////////////////////
             // Build JSON API document
             /////////////////////////////////////////////////////
-            var currentRequestUri = this.GetCurrentRequestUri();
+            var currentRequestUri = this.Request.GetUri();
 
             var scheme = currentRequestUri.Scheme;
             var host = currentRequestUri.Host;
@@ -46,25 +38,26 @@ namespace Blogging.WebService.Controllers
             var commentsResourceCollectionLink = CreateCommentsResourceCollectionUrl(urlBuilderConfiguration);
             var peopleResourceCollectionLink   = CreatePeopleResourceCollectionUrl(urlBuilderConfiguration);
 
-            using var documentContext = this.ApiServiceContext.CreateApiDocumentContext();
+            using (var documentContext = new BloggingDocumentContext(currentRequestUri))
+                {
+                    var document = documentContext
+                        .NewDocument(currentRequestUri)
+                            .SetJsonApiVersion(JsonApiVersion.Version10)
+                            .Links()
+                                .AddSelfLink()
+                            .LinksEnd()
+                            .Resource(apiEntryPoint)
+                                .Links()
+                                    .AddLink("blogs",    blogsResourceCollectionLink)
+                                    .AddLink("articles", articlesResourceCollectionLink)
+                                    .AddLink("comments", commentsResourceCollectionLink)
+                                    .AddLink("people",   peopleResourceCollectionLink)
+                                .LinksEnd()
+                            .ResourceEnd()
+                        .WriteDocument();
 
-            var document = documentContext
-                .NewDocument(currentRequestUri)
-                    .SetJsonApiVersion(JsonApiVersion.Version10)
-                    .Links()
-                        .AddSelfLink()
-                    .LinksEnd()
-                    .Resource(apiEntryPoint)
-                        .Links()
-                            .AddLink("blogs",    blogsResourceCollectionLink)
-                            .AddLink("articles", articlesResourceCollectionLink)
-                            .AddLink("comments", commentsResourceCollectionLink)
-                            .AddLink("people",   peopleResourceCollectionLink)
-                        .LinksEnd()
-                    .ResourceEnd()
-                .WriteDocument();
-
-            return this.Ok(document);
+                    return document;
+                }
         }
         #endregion
 

@@ -8,7 +8,24 @@ namespace Blogging.ServiceModel
 {
     public static class ConfigurationFactory
     {
-        public static IConventions CreateConventions()
+        public static IServiceModel CreateServiceModel()
+        {
+            var serviceModelBuilder = new ServiceModelBuilder();
+
+            serviceModelBuilder.Configurations.Add(new ApiEntryPointConfiguration());
+            serviceModelBuilder.Configurations.Add(new ArticleConfiguration());
+            serviceModelBuilder.Configurations.Add(new BlogConfiguration());
+            serviceModelBuilder.Configurations.Add(new CommentConfiguration());
+            serviceModelBuilder.Configurations.Add(new PersonConfiguration());
+
+            serviceModelBuilder.HomeResource<ApiEntryPoint>();
+
+            var conventions = CreateConventions();
+            var serviceModel = serviceModelBuilder.Create(conventions);
+            return serviceModel;
+        }
+
+        private static IConventions CreateConventions()
         {
             var conventionsBuilder = new ConventionsBuilder();
 
@@ -31,23 +48,6 @@ namespace Blogging.ServiceModel
 
             var conventions = conventionsBuilder.Create();
             return conventions;
-        }
-
-        public static IServiceModel CreateServiceModel()
-        {
-            var serviceModelBuilder = new ServiceModelBuilder();
-
-            serviceModelBuilder.Configurations.Add(new ApiEntryPointConfiguration());
-            serviceModelBuilder.Configurations.Add(new ArticleConfiguration());
-            serviceModelBuilder.Configurations.Add(new BlogConfiguration());
-            serviceModelBuilder.Configurations.Add(new CommentConfiguration());
-            serviceModelBuilder.Configurations.Add(new PersonConfiguration());
-
-            serviceModelBuilder.HomeResource<ApiEntryPoint>();
-
-            var conventions = CreateConventions();
-            var serviceModel = serviceModelBuilder.Create(conventions);
-            return serviceModel;
         }
     }
 }

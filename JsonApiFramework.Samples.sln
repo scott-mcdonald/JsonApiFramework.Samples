@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tutorials", "Tutorials", "{6CD4E69F-AB92-44D5-8B6E-FECC1D697A6D}"
 EndProject
@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld.ConsoleApp.NetCo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blogging.ServiceModel.NetCore", "Tutorials\Blogging\Blogging.ServiceModel.NetCore\Blogging.ServiceModel.NetCore.csproj", "{E797BC19-A314-41D1-9964-60CBFA7FBF3F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blogging.WebService.NetCore", "Tutorials\Blogging\Blogging.WebService.NetCore\Blogging.WebService.NetCore.csproj", "{AF5E49D9-6B94-4FC8-B745-4ABCEA685BB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blogging.WebService.NetCore", "Tutorials\Blogging\Blogging.WebService.NetCore\Blogging.WebService.NetCore.csproj", "{D507E39B-4DF1-4B2E-B9D3-AC357DA41D36}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,10 +40,10 @@ Global
 		{E797BC19-A314-41D1-9964-60CBFA7FBF3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E797BC19-A314-41D1-9964-60CBFA7FBF3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E797BC19-A314-41D1-9964-60CBFA7FBF3F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AF5E49D9-6B94-4FC8-B745-4ABCEA685BB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AF5E49D9-6B94-4FC8-B745-4ABCEA685BB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AF5E49D9-6B94-4FC8-B745-4ABCEA685BB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AF5E49D9-6B94-4FC8-B745-4ABCEA685BB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D507E39B-4DF1-4B2E-B9D3-AC357DA41D36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D507E39B-4DF1-4B2E-B9D3-AC357DA41D36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D507E39B-4DF1-4B2E-B9D3-AC357DA41D36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D507E39B-4DF1-4B2E-B9D3-AC357DA41D36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -54,7 +54,7 @@ Global
 		{E2937872-7C7C-4496-AF5B-734B263F954D} = {8E96099C-A41B-41F4-90B4-BE683EECFD16}
 		{7D13D7BF-4879-4458-9790-3B29065F57FF} = {8E96099C-A41B-41F4-90B4-BE683EECFD16}
 		{E797BC19-A314-41D1-9964-60CBFA7FBF3F} = {1A735499-839E-45CF-9CEB-B2EC3B7C7EC8}
-		{AF5E49D9-6B94-4FC8-B745-4ABCEA685BB1} = {1A735499-839E-45CF-9CEB-B2EC3B7C7EC8}
+		{D507E39B-4DF1-4B2E-B9D3-AC357DA41D36} = {1A735499-839E-45CF-9CEB-B2EC3B7C7EC8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C3DB8BC2-7F33-456A-A051-4F1A4E987E54}

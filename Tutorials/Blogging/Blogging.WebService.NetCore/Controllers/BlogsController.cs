@@ -1,138 +1,255 @@
 ﻿using System;
+using System.Linq;
 
+using Blogging.ServiceModel;
+using Blogging.WebService.Framework;
+using Blogging.WebService.Validation;
+
+using FluentValidation;
+
+using JsonApiFramework;
 using JsonApiFramework.JsonApi;
 using JsonApiFramework.Server;
 
-using Microsoft.ApplicationInsights.AspNetCore.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Blogging.WebService.Controllers
 {
-    public class BlogsController : Controller
+    [ApiController]
+    [Route("")]
+    public class BlogsController : ApiControllerBase
     {
+        #region Constructors
+        public BlogsController(IApiServiceContext apiServiceContext, BloggingRepository bloggingRepository)
+            : base(apiServiceContext, bloggingRepository)
+        {
+        }
+        #endregion
+
         #region WebApi Methods
         [HttpGet("blogs")]
-        public Document GetCollection()
+        public IActionResult GetCollection()
         {
             /////////////////////////////////////////////////////
             // Get all Blogs from repository
             /////////////////////////////////////////////////////
-            var blogs = BloggingRepository.GetBlogs();
+            var blogs = this.BloggingRepository.GetBlogs();
 
             /////////////////////////////////////////////////////
             // Build JSON API document
             /////////////////////////////////////////////////////
-            var currentRequestUri = this.Request.GetUri();
-            using (var documentContext = new BloggingDocumentContext(currentRequestUri))
-            {
-                var document = documentContext
-                    .NewDocument(currentRequestUri)
-                        .SetJsonApiVersion(JsonApiVersion.Version10)
+            var currentRequestUri = this.GetCurrentRequestUri();
+            using var documentContext = this.ApiServiceContext.CreateApiDocumentContext();
+
+            var document = documentContext
+                .NewDocument(currentRequestUri)
+                    .SetJsonApiVersion(JsonApiVersion.Version10)
+                    .Links()
+                        .AddUpLink()
+                        .AddSelfLink()
+                    .LinksEnd()
+                    .ResourceCollection(blogs)
+                        .Relationships()
+                            .AddRelationship("articles", new[] { Keywords.Related })
+                        .RelationshipsEnd()
                         .Links()
-                            .AddUpLink()
                             .AddSelfLink()
                         .LinksEnd()
-                        .ResourceCollection(blogs)
-                            .Relationships()
-                                .AddRelationship("articles", new[] { Keywords.Related })
-                            .RelationshipsEnd()
-                            .Links()
-                                .AddSelfLink()
-                            .LinksEnd()
-                        .ResourceCollectionEnd()
-                    .WriteDocument();
+                    .ResourceCollectionEnd()
+                .WriteDocument();
 
-                return document;
-            }
+            return this.Ok(document);
         }
 
         [HttpGet("blogs/{id}")]
-        public Document Get(string id)
+        public IActionResult Get(string id)
         {
             /////////////////////////////////////////////////////
             // Get Blog by identifier from repository
             /////////////////////////////////////////////////////
-            var blog = BloggingRepository.GetBlog(Convert.ToInt64(id));
+            var blog = this.BloggingRepository.GetBlog(Convert.ToInt64(id));
 
             /////////////////////////////////////////////////////
             // Build JSON API document
             /////////////////////////////////////////////////////
-            var currentRequestUri = this.Request.GetUri();
-            using (var documentContext = new BloggingDocumentContext(currentRequestUri))
-            {
-                var document = documentContext
-                    .NewDocument(currentRequestUri)
-                        .SetJsonApiVersion(JsonApiVersion.Version10)
+            var currentRequestUri = this.GetCurrentRequestUri();
+            using var documentContext = this.ApiServiceContext.CreateApiDocumentContext();
+
+            var document = documentContext
+                .NewDocument(currentRequestUri)
+                    .SetJsonApiVersion(JsonApiVersion.Version10)
+                    .Links()
+                        .AddUpLink()
+                        .AddSelfLink()
+                    .LinksEnd()
+                    .Resource(blog)
+                        .Relationships()
+                            .AddRelationship("articles", new[] { Keywords.Related })
+                        .RelationshipsEnd()
                         .Links()
-                            .AddUpLink()
                             .AddSelfLink()
                         .LinksEnd()
-                        .Resource(blog)
-                            .Relationships()
-                                .AddRelationship("articles", new[] { Keywords.Related })
-                            .RelationshipsEnd()
-                            .Links()
-                                .AddSelfLink()
-                            .LinksEnd()
-                        .ResourceEnd()
-                    .WriteDocument();
+                    .ResourceEnd()
+                .WriteDocument();
 
-                return document;
-            }
+            return this.Ok(document);
         }
 
         [HttpGet("blogs/{id}/articles")]
-        public Document GetBlogToArticles(string id)
+        public IActionResult GetBlogToArticles(string id)
         {
             /////////////////////////////////////////////////////
             // Get Blog to related Articles by Blog identifier from repository
             /////////////////////////////////////////////////////
-            var blogToArticles = BloggingRepository.GetBlogToArticles(Convert.ToInt64(id));
+            var blogToArticles = this.BloggingRepository.GetBlogToArticles(Convert.ToInt64(id)).ToList();
+
+            var articleToBlogIncludedResourceCollection = blogToArticles.Select(x => ToOneIncludedResource.Create(x, "blog", this.BloggingRepository.GetArticleToBlog(x.ArticleId)))
+                                                                        .ToList();
+
+            var articleToAuthorIncludedResourceCollection = blogToArticles.Select(x => ToOneIncludedResource.Create(x, "author", this.BloggingRepository.GetArticleToAuthor(x.ArticleId)))
+                                                                          .ToList();
+
+            var articleToCommentsIncludedResourcesCollection = blogToArticles.Select(x => ToManyIncludedResources.Create(x, "comments", this.BloggingRepository.GetArticleToComments(x.ArticleId)))
+                                                                             .ToList();
+
+            // Get all distinct comments used in all the articles.
+            var comments = blogToArticles.SelectMany(x => this.BloggingRepository.GetArticleToComments(x.ArticleId))
+                                         .GroupBy(x => x.CommentId)
+                                         .Select(x => x.First())
+                                         .ToList();
+
+            var commentToAuthorIncludedResourceCollection = comments.Select(x => ToOneIncludedResource.Create(x, "author", this.BloggingRepository.GetCommentToAuthor(x.CommentId)))
+                                                                    .ToList();
 
             /////////////////////////////////////////////////////
             // Build JSON API document
             /////////////////////////////////////////////////////
-            var currentRequestUri = this.Request.GetUri();
-            using (var documentContext = new BloggingDocumentContext(currentRequestUri))
-            {
-                var document = documentContext
-                    .NewDocument(currentRequestUri)
-                        .SetJsonApiVersion(JsonApiVersion.Version10)
+            var currentRequestUri = this.GetCurrentRequestUri();
+            using var documentContext = this.ApiServiceContext.CreateApiDocumentContext();
+
+            var document = documentContext
+                .NewDocument(currentRequestUri)
+                    .SetJsonApiVersion(JsonApiVersion.Version10)
+                    .Links()
+                        .AddUpLink()
+                        .AddSelfLink()
+                    .LinksEnd()
+                    .ResourceCollection(blogToArticles)
+                        .Relationships()
+                            .AddRelationship("blog", new[] { Keywords.Related })
+                            .AddRelationship("comments", new[] { Keywords.Related })
+                        .RelationshipsEnd()
                         .Links()
-                            .AddUpLink()
                             .AddSelfLink()
                         .LinksEnd()
-                        .ResourceCollection(blogToArticles)
-                            .Relationships()
-                                .AddRelationship("blog", new[] { Keywords.Related })
-                                .AddRelationship("comments", new[] { Keywords.Related })
-                            .RelationshipsEnd()
+                    .ResourceCollectionEnd()
+                    .Included()
+
+                        // article => blog (to-one)
+                        .Include(articleToBlogIncludedResourceCollection)
                             .Links()
                                 .AddSelfLink()
                             .LinksEnd()
-                        .ResourceCollectionEnd()
-                    .WriteDocument();
+                        .IncludeEnd()
 
-                return document;
-            }
+                        // article => author (to-one)
+                        .Include(articleToAuthorIncludedResourceCollection)
+                            .Links()
+                                .AddSelfLink()
+                            .LinksEnd()
+                        .IncludeEnd()
+
+                        // article => comments (to-many)
+                        .Include(articleToCommentsIncludedResourcesCollection)
+                            .Relationships()
+                                .AddRelationship("author", new[] { Keywords.Related })
+                            .RelationshipsEnd()
+                            .Links()
+                                .AddLink(Keywords.Self)
+                            .LinksEnd()
+                        .IncludeEnd()
+
+                        // comment => author (to-one)
+                        .Include(commentToAuthorIncludedResourceCollection)
+                            .Links()
+                                .AddSelfLink()
+                            .LinksEnd()
+                        .IncludeEnd()
+
+                    .IncludedEnd()
+                .WriteDocument();
+
+            return this.Ok(document);
         }
 
         [HttpPost("blogs")]
-        public Document Post([FromBody]Document inDocument)
+        public IActionResult Post([FromBody]Document inDocument)
         {
-            throw new NotImplementedException();
+            var blog = this.CreateBlog(inDocument);
+            var (document, link) = this.CreateDocumentAndLink(blog);
+
+            return this.Created(link, document);
         }
 
         [HttpPatch("blogs/{id}")]
-        public Document Patch(string id, [FromBody]Document inDocument)
+        public IActionResult Patch(string id, [FromBody]Document inDocument)
         {
             throw new NotImplementedException();
         }
 
         [HttpDelete("blogs/{id}")]
-        public void Delete(string id)
+        public IActionResult Delete(string id)
         {
-            throw new NotImplementedException();
+            this.DeleteBlog(id);
+
+            return this.NoContent();
+        }
+        #endregion
+
+        #region Private Methods
+        private Blog CreateBlog(Document inDocument)
+        {
+            using var documentContext = this.ApiServiceContext.CreateApiDocumentContext(inDocument);
+            var inBlog = documentContext.GetResource<Blog>();
+
+            var validator = new BlogValidator();
+            validator.ValidateAndThrow(inBlog);
+
+            var outBlog = this.BloggingRepository.CreateBlog(inBlog);
+            return outBlog;
+        }
+
+        private (Document Document, Link Link) CreateDocumentAndLink(Blog blog)
+        {
+            using var documentContext = this.ApiServiceContext.CreateApiDocumentContext();
+
+            var currentRequestUri = this.GetCurrentRequestUri();
+            var document = documentContext
+                .NewDocument(currentRequestUri)
+                    .SetJsonApiVersion(JsonApiVersion.Version10)
+                    .Links()
+                        .AddUpLink()
+                        .AddSelfLink()
+                    .LinksEnd()
+                    .Resource(blog)
+                        .Relationships()
+                            .AddRelationship("articles", new[] { Keywords.Related })
+                        .RelationshipsEnd()
+                        .Links()
+                            .AddSelfLink()
+                        .LinksEnd()
+                    .ResourceEnd()
+                .WriteDocument();
+
+            var link = document.GetResource().Links.Self;
+
+            return (document, link);
+        }
+
+        private void DeleteBlog(string id)
+        {
+            var blogId = Convert.ToInt64(id);
+            this.BloggingRepository.DeleteBlog(blogId);
         }
         #endregion
     }
