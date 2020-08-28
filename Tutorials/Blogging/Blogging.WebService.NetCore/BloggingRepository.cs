@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 using Blogging.ServiceModel;
@@ -58,6 +58,16 @@ namespace Blogging.WebService
 
             article.ArticleId = this.NextArticleId++;
             dataContext.ArticleTable.Add(article);
+            dataContext.SaveChanges();
+
+            return article;
+        }
+
+        public Article UpdateArticle(Article article)
+        {
+            using var dataContext = this.CreateDataContext();
+
+            dataContext.ArticleTable.Update(article);
             dataContext.SaveChanges();
 
             return article;

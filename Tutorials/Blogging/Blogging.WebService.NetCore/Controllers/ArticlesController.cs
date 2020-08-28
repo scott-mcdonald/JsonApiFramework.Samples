@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 
 using Blogging.ServiceModel;
@@ -313,7 +313,10 @@ namespace Blogging.WebService.Controllers
         [HttpPatch("articles/{id}")]
         public IActionResult Patch(string id, [FromBody]Document inDocument)
         {
-            throw new NotImplementedException();
+            var updatedArticle = this.CreateUpdatedArticle(id, inDocument);
+            var (document, link) = this.CreateDocumentAndLink(updatedArticle);
+
+            return this.Ok(document);
         }
 
         [HttpDelete("articles/{id}")]
@@ -361,6 +364,21 @@ namespace Blogging.WebService.Controllers
             validator.ValidateAndThrow(inArticle);
 
             var outArticle = this.BloggingRepository.CreateArticle(inArticle);
+            return outArticle;
+        }
+
+        private Article CreateUpdatedArticle(string id, Document inDocument)
+        {
+            using var documentContext = this.ApiServiceContext.CreateApiDocumentContext(inDocument);
+
+            var articleToBeUpdated = this.BloggingRepository.GetArticle(Convert.ToInt64(id));
+
+            documentContext.UpdateResource<Article>(inDocument, articleToBeUpdated);
+
+            var validator = new ArticleValidator();
+            validator.ValidateAndThrow(articleToBeUpdated);
+
+            var outArticle = this.BloggingRepository.UpdateArticle(articleToBeUpdated);
             return outArticle;
         }
 
