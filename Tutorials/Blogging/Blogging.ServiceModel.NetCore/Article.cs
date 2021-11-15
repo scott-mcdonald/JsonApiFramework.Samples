@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 
 namespace Blogging.ServiceModel
 {
@@ -15,5 +16,8 @@ namespace Blogging.ServiceModel
         public long ArticleId { get; set; }
         public string Title { get; set; }
         public string Text { get; set; }
+        public int TimesOpened { get; set; }
+        public DateTime PublishedDate { get; set; }
+        public float AverageScore { get; set; }
     }
 }
